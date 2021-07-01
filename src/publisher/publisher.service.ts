@@ -1,26 +1,45 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreatePublisherDto } from './dto/create-publisher.dto';
 import { UpdatePublisherDto } from './dto/update-publisher.dto';
+import { Publisher } from './entities/publisher.entity';
 
 @Injectable()
 export class PublisherService {
-  create(createPublisherDto: CreatePublisherDto) {
-    return 'This action adds a new publisher';
+  constructor(
+    @InjectRepository(Publisher)
+    private publisherRepository: Repository<Publisher>,
+  ) {}
+  async create(createPublisherDto: CreatePublisherDto): Promise<Publisher> {
+    const publisher = await this.publisherRepository.create(createPublisherDto);
+
+    return await this.publisherRepository.save(publisher);
   }
 
   findAll() {
-    return `This action returns all publisher`;
+    return this.publisherRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} publisher`;
+  async findOne(id: number): Promise<Publisher> {
+    const publisher = await this.publisherRepository.findOneOrFail(id);
+    if (!publisher.id) {
+      throw new NotFoundException();
+    }
+
+    return publisher;
   }
 
-  update(id: number, updatePublisherDto: UpdatePublisherDto) {
-    return `This action updates a #${id} publisher`;
+  async update(
+    id: number,
+    updatePublisherDto: UpdatePublisherDto,
+  ): Promise<Publisher> {
+    const idPublisher = await this.findOne(id);
+    await this.publisherRepository.update(id, updatePublisherDto);
+    return this.findOne(idPublisher.id);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} publisher`;
+  async remove(id: number): Promise<any> {
+    return await this.publisherRepository.delete(id);
   }
 }

@@ -36,6 +36,7 @@ const entities = ['dist/src/**/*.entity.js'];
       synchronize: true,
     }),
     MemberModule,
+    PublisherModule,
     AuthModule,
   ],
   controllers: [AppController],

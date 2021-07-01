@@ -6,11 +6,13 @@ import {
   Patch,
   Param,
   Delete,
+  Put,
 } from '@nestjs/common';
 import { PublisherService } from './publisher.service';
 import { CreatePublisherDto } from './dto/create-publisher.dto';
 import { UpdatePublisherDto } from './dto/update-publisher.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { Publisher } from './entities/publisher.entity';
 
 @ApiTags('Publisher')
 @Controller('publisher')
@@ -18,30 +20,53 @@ export class PublisherController {
   constructor(private readonly publisherService: PublisherService) {}
 
   @Post()
-  create(@Body() createPublisherDto: CreatePublisherDto) {
-    return this.publisherService.create(createPublisherDto);
+  async create(@Body() createPublisherDto: CreatePublisherDto): Promise<any> {
+    const newPublisher = await this.publisherService.create(createPublisherDto);
+
+    return {
+      status: true,
+      message: 'Succes',
+      data: newPublisher,
+    };
   }
 
   @Get()
-  findAll() {
-    return this.publisherService.findAll();
+  async findAll(): Promise<any> {
+    const data = await this.publisherService.findAll();
+    return {
+      status: true,
+      data: data,
+    };
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.publisherService.findOne(+id);
+  async findOne(@Param('id') id: string): Promise<any> {
+    const publisherById = await this.publisherService.findOne(+id);
+    return {
+      status: true,
+      data: publisherById,
+    };
   }
 
-  @Patch(':id')
-  update(
+  @Put(':id')
+  async update(
     @Param('id') id: string,
     @Body() updatePublisherDto: UpdatePublisherDto,
-  ) {
-    return this.publisherService.update(+id, updatePublisherDto);
+  ): Promise<any> {
+    const updatePublisher = await this.publisherService.update(+id, updatePublisherDto);
+    return {
+      status: true,
+      message: 'Success',
+      data: updatePublisher,
+    };
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.publisherService.remove(+id);
+    const data = this.publisherService.remove(+id);
+    return {
+      status: true,
+      message: 'Success delete data',
+    };
   }
 }
