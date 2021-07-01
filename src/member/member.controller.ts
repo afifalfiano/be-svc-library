@@ -23,7 +23,7 @@ export class MemberController {
     console.log(createMemberDto, 'log');
     const newMember = await this.memberService.create(createMemberDto);
     return {
-      status: true,
+      status: 200,
       message: 'Success',
       data: newMember,
     };
@@ -37,6 +37,11 @@ export class MemberController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.memberService.findOne(+id);
+  }
+
+  @Get(':email')
+  findOneByEmail(@Param('email') email: string) {
+    return this.memberService.findByEmail(email);
   }
 
   @Patch(':id')

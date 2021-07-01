@@ -1,9 +1,11 @@
 
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
+import { AuthLoginDto } from './dto/auth-login.dto';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
+import { JwtAuthGuard } from './jwt-auth.guard';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -11,10 +13,16 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post()
+  async login(@Body() authLoginDto: AuthLoginDto): Promise<any> {
+    return await this.authService.login(authLoginDto);
+  }
+
+  @Post()
   create(@Body() createAuthDto: CreateAuthDto) {
     return this.authService.create(createAuthDto);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get()
   findAll() {
     return this.authService.findAll();

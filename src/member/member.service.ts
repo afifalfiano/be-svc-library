@@ -21,8 +21,15 @@ export class MemberService {
 
   async findOne(id: number): Promise<any> {
     const user = await this.memberRepository.findOne(id);
-    
+
     delete user.password;
+    return user;
+  }
+
+  async findByEmail(email: string): Promise<any> {
+    const user = await this.memberRepository.findOne({
+      where: { email: email },
+    });
     return user;
   }
 

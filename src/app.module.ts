@@ -19,8 +19,25 @@ import { Member } from './member/entities/member.entity';
 import { Officer } from './officer/entities/officer.entity';
 import { Publisher } from './publisher/entities/publisher.entity';
 
+const entities = ['dist/src/**/*.entity.js'];
 @Module({
-  imports: [TypeOrmModule.forRoot(config), MemberModule],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    TypeOrmModule.forRoot({
+      type: process.env.DB_TYPE as any,
+      host: process.env.DB_HOST,
+      port: parseInt(process.env.DB_PORT),
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
+      entities: entities,
+      synchronize: true,
+    }),
+    MemberModule,
+    AuthModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
