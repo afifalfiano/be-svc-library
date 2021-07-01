@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity()
 export class Borrower {
@@ -17,13 +17,13 @@ export class Borrower {
   @Column({ type: 'date' })
   tgl_kembali: Date;
 
-  @Column({ type: 'timestamp', nullable: true })
+  @CreateDateColumn()
   tgl_input: Date;
 
   @Column({ nullable: true })
   user_input: string;
 
-  @Column({ type: 'timestamp', nullable: true })
+  @UpdateDateColumn()
   tgl_update: Date;
 
   @Column({ nullable: true })
