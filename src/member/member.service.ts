@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { isError } from 'util';
 import { CreateMemberDto } from './dto/create-member.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
 import { Member } from './entities/member.entity';
@@ -16,7 +17,7 @@ export class MemberService {
   }
 
   findAll() {
-    return `This action returns all member`;
+    return this.memberRepository.find();
   }
 
   async findOne(id: number): Promise<any> {
@@ -33,11 +34,17 @@ export class MemberService {
     return user;
   }
 
-  update(id: number, updateMemberDto: UpdateMemberDto) {
-    return `This action updates a #${id} member`;
+  async update(id: number, updateMemberDto: UpdateMemberDto): Promise<Member> {
+    const user = await this.memberRepository.findOneOrFail(id);
+    if (!user.id) {
+      throw new HttpException('Member not found', 404);
+    }
+    await this.memberRepository.update(id, updateMemberDto);
+    return await this.memberRepository.findOne(id);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} member`;
+    const user = this.memberRepository.delete(id);
+    return user;
   }
 }

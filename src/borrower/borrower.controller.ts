@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { BorrowerService } from './borrower.service';
 import { CreateBorrowerDto } from './dto/create-borrower.dto';
@@ -25,7 +33,10 @@ export class BorrowerController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBorrowerDto: UpdateBorrowerDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateBorrowerDto: UpdateBorrowerDto,
+  ) {
     return this.borrowerService.update(+id, updateBorrowerDto);
   }
 

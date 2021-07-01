@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Put,
 } from '@nestjs/common';
 import { MemberService } from './member.service';
 import { CreateMemberDto } from './dto/create-member.dto';
@@ -39,14 +40,17 @@ export class MemberController {
     return this.memberService.findOne(+id);
   }
 
-  @Get(':email')
-  findOneByEmail(@Param('email') email: string) {
-    return this.memberService.findByEmail(email);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMemberDto: UpdateMemberDto) {
-    return this.memberService.update(+id, updateMemberDto);
+  @Put(':id')
+  async update(
+    @Param('id') id: string,
+    @Body() updateMemberDto: UpdateMemberDto,
+  ): Promise<any> {
+    const user = await this.memberService.update(+id, updateMemberDto);
+    return {
+      status: 200,
+      message: 'Success Change Member',
+      data: user,
+    };
   }
 
   @Delete(':id')

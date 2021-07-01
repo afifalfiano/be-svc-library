@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { PublisherService } from './publisher.service';
 import { CreatePublisherDto } from './dto/create-publisher.dto';
 import { UpdatePublisherDto } from './dto/update-publisher.dto';
@@ -25,7 +33,10 @@ export class PublisherController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePublisherDto: UpdatePublisherDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updatePublisherDto: UpdatePublisherDto,
+  ) {
     return this.publisherService.update(+id, updatePublisherDto);
   }
 
