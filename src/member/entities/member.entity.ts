@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BeforeInsert, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import * as bcrypt from 'bcryptjs';
 
 export enum Gender {
   Male,
@@ -10,6 +11,9 @@ export enum Gender {
 export class Member {
   @PrimaryGeneratedColumn()
   id: number;
+
+  @Column({ unique: true })
+  email: string;
 
   @Column()
   nama: string;
@@ -26,15 +30,27 @@ export class Member {
   @Column()
   kontak: number;
 
-  @Column({ type: 'timestamp', nullable: true })
+  @Column()
+  password: string;
+
+  @CreateDateColumn()
   tgl_input: Date;
 
   @Column({ nullable: true })
   user_input: string;
 
-  @Column({ type: 'timestamp', nullable: true })
+  @UpdateDateColumn()
   tgl_update: Date;
 
   @Column({ nullable: true })
   user_update: string;
+
+  @BeforeInsert()
+  async hashPassword() {
+    this.password = await bcrypt.hash(this.password, 8);
+  }
+
+  async validatePassword(password: string): Promise<boolean> {
+    return bcrypt.compare(password, this.password);
+  }
 }

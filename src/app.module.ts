@@ -11,20 +11,16 @@ import { AuthorBookModule } from './author-book/author-book.module';
 import { PublisherModule } from './publisher/publisher.module';
 import { BorrowerModule } from './borrower/borrower.module';
 import config from 'ormconfig';
+import { Auth } from './auth/entities/auth.entity';
+import { AuthorBook } from './author-book/entities/author-book.entity';
+import { Book } from './book/entities/book.entity';
+import { Borrower } from './borrower/entities/borrower.entity';
+import { Member } from './member/entities/member.entity';
+import { Officer } from './officer/entities/officer.entity';
+import { Publisher } from './publisher/entities/publisher.entity';
 
 @Module({
-  imports: [
-    TypeOrmModule.forRoot(config),
-    TypeOrmModule.forFeature([
-      BookModule,
-      MemberModule,
-      OfficerModule,
-      AuthModule,
-      AuthorBookModule,
-      PublisherModule,
-      BorrowerModule,
-    ]),
-  ],
+  imports: [TypeOrmModule.forRoot(config), MemberModule],
   controllers: [AppController],
   providers: [AppService],
 })
