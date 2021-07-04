@@ -17,9 +17,10 @@ export class AuthorBookService {
   }
 
   async findAll(): Promise<AuthorBook[]> {
-    const allAuthor = await this.authorRepositorty.find({
-      relations: ['book'],
-    });
+    const allAuthor = await this.authorRepositorty
+      .createQueryBuilder('author-book')
+      .innerJoinAndSelect('author-book.book', 'book')
+      .getMany();
     return allAuthor;
   }
 

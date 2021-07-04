@@ -31,8 +31,8 @@ export class MemberController {
   }
 
   @Get()
-  findAll() {
-    return this.memberService.findAll();
+  async findAll(): Promise<any> {
+    return await this.memberService.findAll();
   }
 
   @Get(':id')

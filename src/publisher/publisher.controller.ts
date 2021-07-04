@@ -7,18 +7,24 @@ import {
   Param,
   Delete,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { PublisherService } from './publisher.service';
 import { CreatePublisherDto } from './dto/create-publisher.dto';
 import { UpdatePublisherDto } from './dto/update-publisher.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { Publisher } from './entities/publisher.entity';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { Roles } from 'src/auth/roles.decorator';
+import { Role } from 'src/auth/entities/role.enum';
+import { RolesGuard } from 'src/auth/roles.guard';
 
 @ApiTags('Publisher')
 @Controller('publisher')
 export class PublisherController {
   constructor(private readonly publisherService: PublisherService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post()
   async create(@Body() createPublisherDto: CreatePublisherDto): Promise<any> {
     const newPublisher = await this.publisherService.create(createPublisherDto);
@@ -30,6 +36,8 @@ export class PublisherController {
     };
   }
 
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Guest)
   @Get()
   async findAll(): Promise<any> {
     const data = await this.publisherService.findAll();
@@ -39,6 +47,7 @@ export class PublisherController {
     };
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<any> {
     const publisherById = await this.publisherService.findOne(+id);
@@ -48,6 +57,7 @@ export class PublisherController {
     };
   }
 
+  @UseGuards(JwtAuthGuard)
   @Put(':id')
   async update(
     @Param('id') id: string,
@@ -64,6 +74,7 @@ export class PublisherController {
     };
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   async remove(@Param('id') id: string): Promise<any> {
     const data = this.publisherService.remove(+id);

@@ -16,8 +16,8 @@ export class MemberService {
     return await this.memberRepository.save(member);
   }
 
-  findAll() {
-    return this.memberRepository.find();
+  async findAll(): Promise<any> {
+    return await this.memberRepository.find();
   }
 
   async findOne(id: number): Promise<any> {

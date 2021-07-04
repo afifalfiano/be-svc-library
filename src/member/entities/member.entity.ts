@@ -7,6 +7,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
+import { Role } from 'src/auth/entities/role.enum';
 
 export enum Gender {
   Male,
@@ -39,6 +40,9 @@ export class Member {
 
   @Column()
   password: string;
+
+  @Column({ type: 'enum', enum: Role })
+  roles: Role;
 
   @CreateDateColumn()
   tgl_input: Date;

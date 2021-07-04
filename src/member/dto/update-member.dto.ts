@@ -2,6 +2,7 @@ import { PartialType } from '@nestjs/mapped-types';
 import { CreateMemberDto } from './create-member.dto';
 import { Gender } from '../entities/member.entity';
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { Role } from 'src/auth/entities/role.enum';
 
 export class UpdateMemberDto extends PartialType(CreateMemberDto) {
   @IsEmail()
@@ -24,4 +25,6 @@ export class UpdateMemberDto extends PartialType(CreateMemberDto) {
 
   @IsNotEmpty()
   password: string;
+
+  roles: Role;
 }
