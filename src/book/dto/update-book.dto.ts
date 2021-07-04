@@ -6,15 +6,14 @@ import { CreateBookDto } from './create-book.dto';
 
 export class UpdateBookDto extends PartialType(CreateBookDto) {
     @IsNotEmpty()
-    judul: string;
+    judul?: string;
   
     @IsNotEmpty()
-    pengarang: AuthorBook[];
+    pengarang?: AuthorBook[];
   
     @IsNotEmpty()
-    penerbit: Publisher;
+    penerbit?: Publisher;
   
     @IsNotEmpty()
-    @IsNumber()
-    tahun_terbit: number;
+    tahun_terbit?: number;
 }

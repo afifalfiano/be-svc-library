@@ -4,11 +4,11 @@ import { CreateAuthorBookDto } from './create-author-book.dto';
 
 export class UpdateAuthorBookDto extends PartialType(CreateAuthorBookDto) {
     @IsNotEmpty()
-    nama: string;
+    nama?: string;
 
     @IsNotEmpty()
-    asal: string;
+    asal?: string;
 
     @IsNotEmpty()
-    tgl_lahir: Date;
+    tgl_lahir?: Date;
 }
