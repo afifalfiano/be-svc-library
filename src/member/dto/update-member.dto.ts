@@ -6,25 +6,27 @@ import { Role } from 'src/auth/entities/role.enum';
 
 export class UpdateMemberDto extends PartialType(CreateMemberDto) {
   @IsEmail()
-  email: string;
+  email?: string;
 
   @IsNotEmpty()
-  nama: string;
+  nama?: string;
 
   @IsNotEmpty()
-  jenis_kelamin: Gender;
+  jenis_kelamin?: Gender;
 
   @IsNotEmpty()
-  tgl_lahir: Date;
+  tgl_lahir?: Date;
 
   @IsNotEmpty()
-  alamat: string;
+  alamat?: string;
 
   @IsNotEmpty()
-  kontak: number;
+  kontak?: number;
 
   @IsNotEmpty()
-  password: string;
+  password?: string;
 
-  roles: Role;
+  roles?: Role;
+
+  jwt_token?: string;
 }

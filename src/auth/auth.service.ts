@@ -20,10 +20,26 @@ export class AuthService {
       userId: user.id,
     };
 
-    return {
+    const token = {
       nama: user.nama,
       access_token: this.jwtService.sign(payload),
     };
+
+    await this.memberService.update(user.id, {
+      jwt_token: token.access_token,
+    });
+
+    return token;
+  }
+
+  async logout(email: string): Promise<any> {
+    const user = await this.memberService.findByEmail(email);
+
+    await this.memberService.update(user.id, {
+      jwt_token: null,
+    });
+
+    return 'Sucess Logout';
   }
 
   async validateUser(authLoginDto: AuthLoginDto): Promise<Member> {
@@ -35,9 +51,5 @@ export class AuthService {
     }
 
     return user;
-  }
-
-  findAll() {
-    return `This action returns all auth`;
   }
 }

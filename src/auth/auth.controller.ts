@@ -9,14 +9,13 @@ import { JwtAuthGuard } from './jwt-auth.guard';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post()
+  @Post('login')
   async login(@Body() authLoginDto: AuthLoginDto): Promise<any> {
     return await this.authService.login(authLoginDto);
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Get()
-  findAll() {
-    return this.authService.findAll();
+  @Post('logout')
+  async logout(@Body('email') email: string): Promise<any> {
+    return await this.authService.logout(email);
   }
 }

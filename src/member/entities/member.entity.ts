@@ -44,6 +44,9 @@ export class Member {
   @Column({ type: 'enum', enum: Role })
   roles: Role;
 
+  @Column({ nullable: true })
+  jwt_token: string;
+
   @CreateDateColumn()
   tgl_input: Date;
 

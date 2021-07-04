@@ -37,7 +37,7 @@ export class PublisherController {
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.Guest)
+  @Roles(Role.Admin)
   @Get()
   async findAll(): Promise<any> {
     const data = await this.publisherService.findAll();

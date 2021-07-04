@@ -25,4 +25,6 @@ export class CreateMemberDto {
   password: string;
 
   roles: Role;
+
+  jwt_token?: string;
 }
