@@ -34,8 +34,13 @@ export class BookService {
     return idBook;
   }
 
-  update(id: number, updateBookDto: UpdateBookDto) {
-    return `This action updates a #${id} book`;
+  async update(id: number, updateBookDto: UpdateBookDto): Promise<any> {
+    const updateBook = this.findOne(id);
+    if (!updateBook) {
+      throw new NotFoundException();
+    }
+    await this.bookRepository.update(id, updateBookDto);
+    return this.findOne(id);
   }
 
   async remove(id: number): Promise<any> {

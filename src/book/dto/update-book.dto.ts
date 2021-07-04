@@ -16,4 +16,6 @@ export class UpdateBookDto extends PartialType(CreateBookDto) {
 
   @IsNotEmpty()
   tahun_terbit?: number;
+
+  cover?: string;
 }

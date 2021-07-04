@@ -15,4 +15,6 @@ export class CreateBookDto {
   @IsNotEmpty()
   @IsNumber()
   tahun_terbit: number;
+
+  cover?: string;
 }

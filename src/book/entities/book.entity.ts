@@ -28,6 +28,9 @@ export class Book {
   @Column()
   tahun_terbit: number;
 
+  @Column()
+  cover: string;
+
   @CreateDateColumn()
   tgl_input: Date;
 

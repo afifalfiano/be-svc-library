@@ -6,8 +6,14 @@ import {
   Patch,
   Param,
   Delete,
+  UseInterceptors,
+  UploadedFile,
+  Res,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
+import { diskStorage } from 'multer';
+import { Helper } from 'src/shared/helper';
 import { BookService } from './book.service';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
@@ -57,5 +63,36 @@ export class BookController {
       status: true,
       message: 'Success delete data',
     };
+  }
+
+  @Post('cover/:id')
+  @UseInterceptors(
+    FileInterceptor('picture', {
+      storage: diskStorage({
+        destination: Helper.destinationPath,
+        filename: Helper.customFileName,
+      }),
+    }),
+  )
+  async uploadCover(
+    @Param('id') id: string,
+    @UploadedFile() files,
+  ): Promise<any> {
+    console.log(files);
+    const updateCover = await this.bookService.update(+id, {
+      cover: files.filename,
+    });
+
+    console.log(updateCover, 'update');
+
+    return {
+      status: true,
+      message: 'Success upload cover book',
+    };
+  }
+
+  @Get('cover/:covername')
+  seeCoverBook(@Param('covername') cover: string, @Res() res) {
+    return res.sendFile(cover, { root: './images/cover-book/' });
   }
 }

@@ -11,8 +11,13 @@ import { PublisherModule } from './publisher/publisher.module';
 import config from 'ormconfig';
 import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from './auth/roles.guard';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 @Module({
   imports: [
+    ThrottlerModule.forRoot({
+      ttl: 60,
+      limit: 10,
+    }),
     ConfigModule.forRoot({
       isGlobal: true,
     }),
@@ -39,6 +44,10 @@ import { RolesGuard } from './auth/roles.guard';
     BookModule,
   ],
   controllers: [AppController],
-  providers: [AppService, { provide: APP_GUARD, useClass: RolesGuard }],
+  providers: [
+    AppService,
+    { provide: APP_GUARD, useClass: RolesGuard },
+    { provide: APP_GUARD, useClass: ThrottlerGuard },
+  ],
 })
 export class AppModule {}
