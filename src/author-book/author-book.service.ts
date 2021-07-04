@@ -17,14 +17,14 @@ export class AuthorBookService {
   }
 
   async findAll(): Promise<AuthorBook[]> {
-    const allAuthor = await this.authorRepositorty.find();
-    console.log(allAuthor, 'all');
+    const allAuthor = await this.authorRepositorty.find({
+      relations: ['book'],
+    });
     return allAuthor;
   }
 
   async findOne(id: number): Promise<AuthorBook> {
     const author = await this.authorRepositorty.findOneOrFail(id);
-    console.log(author);
     if (!author.id) {
       throw new NotFoundException();
     }

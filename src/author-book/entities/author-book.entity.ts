@@ -1,4 +1,13 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Book } from 'src/book/entities/book.entity';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class AuthorBook {
@@ -13,6 +22,9 @@ export class AuthorBook {
 
   @Column({ type: 'date' })
   tgl_lahir: Date;
+
+  @ManyToOne(() => Book, (book) => book.pengarang, { onDelete: 'SET NULL' })
+  book: Book;
 
   @CreateDateColumn()
   tgl_input: Date;

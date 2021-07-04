@@ -18,18 +18,31 @@ export class BookController {
   constructor(private readonly bookService: BookService) {}
 
   @Post()
-  create(@Body() createBookDto: CreateBookDto) {
-    return this.bookService.create(createBookDto);
+  async create(@Body() createBookDto: CreateBookDto): Promise<any> {
+    const book = await this.bookService.create(createBookDto);
+    return {
+      status: true,
+      message: 'Success',
+      data: book,
+    };
   }
 
   @Get()
-  findAll() {
-    return this.bookService.findAll();
+  async findAll(): Promise<any> {
+    const allBook = await this.bookService.findAll();
+    return {
+      status: true,
+      data: allBook,
+    };
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.bookService.findOne(+id);
+  async findOne(@Param('id') id: string): Promise<any> {
+    const idBook = await this.bookService.findOne(+id);
+    return {
+      status: true,
+      data: idBook,
+    };
   }
 
   @Patch(':id')
@@ -38,7 +51,11 @@ export class BookController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.bookService.remove(+id);
+  async remove(@Param('id') id: string): Promise<any> {
+    const idBook = await this.bookService.remove(+id);
+    return {
+      status: true,
+      message: 'Success delete data',
+    };
   }
 }

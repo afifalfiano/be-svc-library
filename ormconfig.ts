@@ -1,6 +1,5 @@
 import { MysqlConnectionOptions } from 'typeorm/driver/mysql/MysqlConnectionOptions';
 
-const jwt = '';
 const config: MysqlConnectionOptions = {
   type: 'mysql',
   database: 'db_library',
@@ -16,4 +15,4 @@ const config: MysqlConnectionOptions = {
   },
 };
 
-export default { config, jwt };
+export default config;

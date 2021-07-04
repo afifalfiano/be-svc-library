@@ -1,5 +1,15 @@
 import { Timestamp } from 'rxjs';
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { AuthorBook } from 'src/author-book/entities/author-book.entity';
+import { Publisher } from 'src/publisher/entities/publisher.entity';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class Book {
@@ -9,11 +19,11 @@ export class Book {
   @Column()
   judul: string;
 
-  @Column()
-  pengarang: string;
+  @OneToMany(() => AuthorBook, (author) => author.book)
+  pengarang: AuthorBook[];
 
-  @Column()
-  penerbit: string;
+  @OneToMany(() => Publisher, (publish) => publish.book)
+  penerbit: Publisher;
 
   @Column()
   tahun_terbit: number;
