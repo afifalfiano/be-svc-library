@@ -53,7 +53,10 @@ export class PublisherController {
     @Param('id') id: string,
     @Body() updatePublisherDto: UpdatePublisherDto,
   ): Promise<any> {
-    const updatePublisher = await this.publisherService.update(+id, updatePublisherDto);
+    const updatePublisher = await this.publisherService.update(
+      +id,
+      updatePublisherDto,
+    );
     return {
       status: true,
       message: 'Success',
@@ -62,7 +65,7 @@ export class PublisherController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  async remove(@Param('id') id: string): Promise<any> {
     const data = this.publisherService.remove(+id);
     return {
       status: true,

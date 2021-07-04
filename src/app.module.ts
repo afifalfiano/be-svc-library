@@ -38,6 +38,7 @@ const entities = ['dist/src/**/*.entity.js'];
     MemberModule,
     PublisherModule,
     AuthModule,
+    AuthorBookModule,
   ],
   controllers: [AppController],
   providers: [AppService],
