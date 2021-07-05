@@ -20,7 +20,7 @@ import { Role } from 'src/auth/entities/role.enum';
 import { RolesGuard } from 'src/auth/roles.guard';
 
 @ApiTags('Publisher')
-@Controller('publisher')
+@Controller('api/publisher')
 export class PublisherController {
   constructor(private readonly publisherService: PublisherService) {}
 

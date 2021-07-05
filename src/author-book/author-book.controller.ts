@@ -15,7 +15,7 @@ import { UpdateAuthorBookDto } from './dto/update-author-book.dto';
 import { AuthorBook } from './entities/author-book.entity';
 
 @ApiTags('Author Book')
-@Controller('author-book')
+@Controller('api/author-book')
 export class AuthorBookController {
   constructor(private readonly authorBookService: AuthorBookService) {}
 

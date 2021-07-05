@@ -15,7 +15,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { Member } from './entities/member.entity';
 
 @ApiTags('Member')
-@Controller('member')
+@Controller('api/member')
 export class MemberController {
   constructor(private readonly memberService: MemberService) {}
 
