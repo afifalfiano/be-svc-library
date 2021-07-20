@@ -21,7 +21,11 @@ export class AuthService {
     };
 
     const token = {
-      nama: user.nama,
+      user: {
+        nama: user.nama,
+        email: user.email,
+        roles: user.roles,
+      },
       access_token: this.jwtService.sign(payload),
     };
 
@@ -39,7 +43,10 @@ export class AuthService {
       jwt_token: null,
     });
 
-    return 'Sucess Logout';
+    return {
+      status: true,
+      message: 'Success Logout',
+    };
   }
 
   async validateUser(authLoginDto: AuthLoginDto): Promise<Member> {

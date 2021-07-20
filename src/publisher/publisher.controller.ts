@@ -24,7 +24,8 @@ import { RolesGuard } from 'src/auth/roles.guard';
 export class PublisherController {
   constructor(private readonly publisherService: PublisherService) {}
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin)
   @Post()
   async create(@Body() createPublisherDto: CreatePublisherDto): Promise<any> {
     const newPublisher = await this.publisherService.create(createPublisherDto);
@@ -47,7 +48,8 @@ export class PublisherController {
     };
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin)
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<any> {
     const publisherById = await this.publisherService.findOne(+id);
@@ -57,7 +59,8 @@ export class PublisherController {
     };
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin)
   @Put(':id')
   async update(
     @Param('id') id: string,
@@ -74,7 +77,8 @@ export class PublisherController {
     };
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.Admin)
   @Delete(':id')
   async remove(@Param('id') id: string): Promise<any> {
     const data = this.publisherService.remove(+id);

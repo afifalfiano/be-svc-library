@@ -23,7 +23,10 @@ export class RolesGuard implements CanActivate {
       return true;
     }
     const request = context.switchToHttp().getRequest();
-    const member = await this.memberService.findByEmail(request.body.email);
+    const member = await this.memberService.findByEmail(
+      request._parsedOriginalUrl['query'].split('=')[1],
+    );
+    console.log(request);
     return requiredRoles.some((role) => member.roles?.includes(role));
   }
 }
